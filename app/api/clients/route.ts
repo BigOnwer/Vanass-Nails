@@ -22,7 +22,7 @@ const ALL_TIME_SLOTS = [
 // POST - Criar novo agendamento
 export async function POST(request: NextRequest) {
     const data = await request.json()
-    let { service, date, name, phone, email, observation } = data
+    const { service, date, name, phone, email, observation } = data
 
     try {
         // Verificar se o horário ainda está disponível antes de criar
