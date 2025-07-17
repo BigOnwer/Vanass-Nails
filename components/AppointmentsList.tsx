@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Phone, Mail, Trash2, Edit, Search, Filter } from 'lucide-react';
 
