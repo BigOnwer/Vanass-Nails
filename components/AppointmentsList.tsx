@@ -84,7 +84,7 @@ const AppointmentsList = () => {
   };
 
   // Iniciar edição
-  const handleEdit = (appointment: any) => {
+  const handleEdit = (appointment: Appointment) => {
     setEditingId(appointment.id);
     setEditForm({
       id: appointment.id,
@@ -242,35 +242,35 @@ const AppointmentsList = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input
                       type="text"
-                      value={editForm.name}
+                      value={editForm.name || ''}
                       onChange={(e) => setEditForm({...editForm, name: e.target.value})}
                       className="p-2 border border-gray-300 rounded"
                       placeholder="Nome"
                     />
                     <input
                       type="tel"
-                      value={editForm.phone}
+                      value={editForm.phone || ''}
                       onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
                       className="p-2 border border-gray-300 rounded"
                       placeholder="Telefone"
                     />
                     <input
                       type="email"
-                      value={editForm.email}
+                      value={editForm.email || ''}
                       onChange={(e) => setEditForm({...editForm, email: e.target.value})}
                       className="p-2 border border-gray-300 rounded"
                       placeholder="Email"
                     />
                     <input
                       type="text"
-                      value={editForm.service}
+                      value={editForm.service || ''}
                       onChange={(e) => setEditForm({...editForm, service: e.target.value})}
                       className="p-2 border border-gray-300 rounded"
                       placeholder="Serviço"
                     />
                   </div>
                   <textarea
-                    value={editForm.observation}
+                    value={editForm.observation || ''}
                     onChange={(e) => setEditForm({...editForm, observation: e.target.value})}
                     className="w-full p-2 border border-gray-300 rounded"
                     placeholder="Observações"
