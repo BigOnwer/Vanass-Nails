@@ -1,15 +1,38 @@
-'use client'
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Phone, Mail, Trash2, Edit, Search, Filter } from 'lucide-react';
 
+interface Appointment {
+  id: number;
+  service: string;
+  date: string;
+  name: string;
+  phone: string;
+  email: string;
+  observation: string;
+  dateOnly: string;
+  timeOnly: string;
+  formattedDate: string;
+  formattedTime: string;
+}
+
+interface EditForm {
+  id?: number;
+  service?: string;
+  date?: string;
+  name?: string;
+  phone?: string;
+  email?: string;
+  observation?: string;
+}
+
 const AppointmentsList = () => {
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDate, setFilterDate] = useState('');
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({});
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<EditForm>({});
 
   // Buscar agendamentos
   const fetchAppointments = async () => {
@@ -26,7 +49,7 @@ const AppointmentsList = () => {
       } else {
         setError(data.error || 'Erro ao buscar agendamentos');
       }
-    } catch (err) {
+    } catch {
       setError('Erro de conexão');
     } finally {
       setLoading(false);
@@ -34,7 +57,7 @@ const AppointmentsList = () => {
   };
 
   // Cancelar agendamento
-  async function handleDelete(id: string) {
+  const handleDelete = async (id) => {
     if (!confirm('Tem certeza que deseja cancelar este agendamento?')) return;
     
     try {
@@ -47,13 +70,13 @@ const AppointmentsList = () => {
       } else {
         setError('Erro ao cancelar agendamento');
       }
-    } catch (err) {
+    } catch {
       setError('Erro de conexão');
     }
   };
 
   // Iniciar edição
-  const handleEdit = (appointment: any) => {
+  const handleEdit = (appointment) => {
     setEditingId(appointment.id);
     setEditForm({
       id: appointment.id,
@@ -104,7 +127,7 @@ const AppointmentsList = () => {
     fetchAppointments();
   }, [filterDate]);
 
-  const getStatusColor = (date: Date) => {
+  const getStatusColor = (date) => {
     const now = new Date();
     const appointmentDate = new Date(date);
     
@@ -243,7 +266,7 @@ const AppointmentsList = () => {
                     onChange={(e) => setEditForm({...editForm, observation: e.target.value})}
                     className="w-full p-2 border border-gray-300 rounded"
                     placeholder="Observações"
-                    rows="3"
+                    rows={3}
                   />
                   <div className="flex gap-2">
                     <button

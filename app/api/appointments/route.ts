@@ -63,7 +63,7 @@ export async function DELETE(request: NextRequest) {
     try {
         const deletedAppointment = await prisma.clientes.delete({
             where: {
-                id: parseInt(id)
+                id: id
             }
         })
 
@@ -106,7 +106,7 @@ export async function PUT(request: NextRequest) {
                         }
                     },
                     NOT: {
-                        id: parseInt(id)
+                        id: id
                     }
                 }
             })
@@ -121,7 +121,7 @@ export async function PUT(request: NextRequest) {
 
         const updatedAppointment = await prisma.clientes.update({
             where: {
-                id: parseInt(id)
+                id: id
             },
             data: {
                 service,
