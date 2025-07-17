@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Phone, Mail, Trash2, Edit, Search, Filter } from 'lucide-react';
 
@@ -26,6 +25,12 @@ interface EditForm {
   observation?: string;
 }
 
+interface ApiResponse {
+  appointments?: Appointment[];
+  error?: string;
+  message?: string;
+}
+
 const AppointmentsList = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,10 +48,10 @@ const AppointmentsList = () => {
       if (filterDate) params.append('date', filterDate);
       
       const response = await fetch(`/api/appointments?${params}`);
-      const data = await response.json();
+      const data: ApiResponse = await response.json();
       
       if (response.ok) {
-        setAppointments(data.appointments);
+        setAppointments(data.appointments || []);
       } else {
         setError(data.error || 'Erro ao buscar agendamentos');
       }
@@ -106,10 +111,10 @@ const AppointmentsList = () => {
         setEditingId(null);
         setEditForm({});
       } else {
-        const data = await response.json();
+        const data: ApiResponse = await response.json();
         setError(data.error || 'Erro ao atualizar agendamento');
       }
-    } catch (err) {
+    } catch {
       setError('Erro de conexão');
     }
   };
@@ -128,7 +133,7 @@ const AppointmentsList = () => {
     fetchAppointments();
   }, [filterDate]);
 
-  const getStatusColor = (date: Date) => {
+  const getStatusColor = (date: string) => {
     const now = new Date();
     const appointmentDate = new Date(date);
     
