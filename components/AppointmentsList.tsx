@@ -58,7 +58,7 @@ const AppointmentsList = () => {
   };
 
   // Cancelar agendamento
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (!confirm('Tem certeza que deseja cancelar este agendamento?')) return;
     
     try {
@@ -77,7 +77,7 @@ const AppointmentsList = () => {
   };
 
   // Iniciar edição
-  const handleEdit = (appointment) => {
+  const handleEdit = (appointment: any) => {
     setEditingId(appointment.id);
     setEditForm({
       id: appointment.id,
@@ -128,7 +128,7 @@ const AppointmentsList = () => {
     fetchAppointments();
   }, [filterDate]);
 
-  const getStatusColor = (date) => {
+  const getStatusColor = (date: Date) => {
     const now = new Date();
     const appointmentDate = new Date(date);
     
