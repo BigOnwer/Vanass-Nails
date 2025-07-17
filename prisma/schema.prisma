@@ -21,4 +21,5 @@ model Clientes {
   phone             String
   email             String
   observation       String?
+  createdAt         DateTime @default(now())
 }
