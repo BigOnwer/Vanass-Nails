@@ -1,4 +1,4 @@
-
+// app/api/appointments/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { db as prisma } from '@/lib/prisma'
 
@@ -9,18 +9,13 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status')
 
     try {
-        let whereClause: any = {}
-
-        // Filtrar por data específica se fornecida
-        if (date) {
-            whereClause.date = {
-                startsWith: date
-            }
-        }
-
-        // Filtrar por status se fornecido (assumindo que você tenha um campo status)
-        if (status) {
-            whereClause.status = status
+        // Construir filtros dinamicamente
+        const dateFilter = date ? { date: { startsWith: date } } : {}
+        const statusFilter = status ? { status } : {}
+        
+        const whereClause = {
+            ...dateFilter,
+            ...statusFilter
         }
 
         const appointments = await prisma.clientes.findMany({
@@ -68,7 +63,7 @@ export async function DELETE(request: NextRequest) {
     try {
         const deletedAppointment = await prisma.clientes.delete({
             where: {
-                id: id
+                id: parseInt(id)
             }
         })
 
@@ -111,7 +106,7 @@ export async function PUT(request: NextRequest) {
                         }
                     },
                     NOT: {
-                        id: id
+                        id: parseInt(id)
                     }
                 }
             })
@@ -126,7 +121,7 @@ export async function PUT(request: NextRequest) {
 
         const updatedAppointment = await prisma.clientes.update({
             where: {
-                id: id
+                id: parseInt(id)
             },
             data: {
                 service,
